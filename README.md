@@ -1,3 +1,5 @@
+projets_symfony
+
 Initialisation & Base de données
 - Création d'un projet Symfony
 - Configuration de la base de données avec Doctrine
