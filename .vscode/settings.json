@@ -1,0 +1,14 @@
+{
+    "liveServer.settings.port": 5500,
+    "files.associations": {
+        "*.twig": "twig"
+    },
+    "emmet.includeLanguages": {
+        "twig": "html"
+    },
+    "editor.quickSuggestions": {
+        "other": true,
+        "comments": false,
+        "strings": true
+    }
+}
