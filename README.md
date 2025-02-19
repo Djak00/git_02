@@ -1,4 +1,5 @@
-projets_symfony
+# git_02_SYMFONY
+Description_git_02 - projets_symfony
 
 Initialisation & Base de données
 - Création d'un projet Symfony
