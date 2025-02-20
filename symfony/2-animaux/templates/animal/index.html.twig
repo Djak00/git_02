@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page d'accueil
+{% endblock %}
+
+{% block monTitre %}Voici la liste des aimaux
+{% endblock %}
+{% block body %}
+	{% for animal in animaux %}
+
+		<div class="row">
+			<div class="col-2">
+				<img src="{{asset("images/" ~ animal.nom ~ ".png")}}" alt="img" class="img-fluid">
+			</div>
+			<div class="col-auto">
+				<a href="{{path('afficher_animal',{'id' : animal.id})}}">
+					<h3>{{animal.nom}}</h3> 
+				</a>
+				<div>
+				{{animal.description}}
+				</div>
+				<div>
+				<a href="{{path("afficher_famille",{"id" : animal.famille.id})}}" class="btn btn-info">{{animal.famille.libelle}}</a>
+				</div>
+			</div>
+		{% endfor %}
+	{% endblock %}
+

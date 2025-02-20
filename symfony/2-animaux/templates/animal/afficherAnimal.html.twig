@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Affichage de l'animal
+{% endblock %}
+
+{% block monTitre %}Affichage de l'animal
+	{{animal.nom}}
+{% endblock %}
+{% block body %}
+	<div class="row align-item-center">
+		<div class="col-2 text-center m-2">
+			<img src="{{asset("images/" ~ animal.nom ~ ".png")}}" alt="img" class="img-fluid">
+			<div><br>
+				<a href="{{path("afficher_famille",{"id" : animal.famille.id})}}" class="btn btn-info">{{animal.famille.libelle}}</a>
+			</div>
+		</div>
+
+		<div class="col-auto">
+			<div>Déscription :
+				{{animal.description}}
+			</div>
+			<div>Poids :
+				{{animal.poids}}
+			</div>
+			<div>Dangereux :
+				{% if animal.dangereux %}
+					<span class="badge bg-danger">OUI</span>
+				{% else %}
+					<span class="badge bg-danger">NON</span>
+				{% endif %}
+
+			</div>
+
+		</div>
+	</div>
+
+{% endblock %}
+
