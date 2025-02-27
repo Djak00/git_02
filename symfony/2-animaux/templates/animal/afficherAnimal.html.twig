@@ -7,12 +7,13 @@
 	{{animal.nom}}
 {% endblock %}
 {% block body %}
-	<div class="row align-item-center">
+	<div class="row align-item-center mt-4">
 		<div class="col-2 text-center m-2">
 			<img src="{{asset("images/" ~ animal.nom ~ ".png")}}" alt="img" class="img-fluid">
 			<div><br>
 				<a href="{{path("afficher_famille",{"id" : animal.famille.id})}}" class="btn btn-info">{{animal.famille.libelle}}</a>
 			</div>
+			<div><a href="{{path("animaux")}}" class="btn btn-success m-2">Liste animaux</a></div>
 		</div>
 
 		<div class="col-auto">

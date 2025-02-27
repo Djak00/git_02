@@ -3,7 +3,10 @@
 namespace App\DataFixtures;
 
 use App\Entity\Animal;
+use App\Entity\Dispose;
 use App\Entity\Famille;
+use App\Entity\Personne;
+use App\Entity\Continent;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 
@@ -11,6 +14,37 @@ class AnimaleFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
+
+        $p1=new Personne();
+        $p1->setNom("Milo");
+        $manager->persist($p1);
+        $p2=new Personne();
+        $p2->setNom("Tya");
+        $manager->persist($p2);
+        $p3=new Personne();
+        $p3->setNom("Lili");
+        $manager->persist($p3);
+
+
+        $continent1=new Continent();
+        $continent1->setLibelle("Europe");
+        $manager->persist($continent1);
+
+        $continent2=new Continent();
+        $continent2->setLibelle("Asie");
+        $manager->persist($continent2);
+
+        $continent3=new Continent();
+        $continent3->setLibelle("Afrique");
+        $manager->persist($continent3);
+
+        $continent4=new Continent();
+        $continent4->setLibelle("Océanie");
+        $manager->persist($continent4);
+
+        $continent5=new Continent();
+        $continent5->setLibelle("Amérique");
+        $manager->persist($continent5);
 
         $c1 = new Famille();
         $c1->setLibelle("Mammifères")
@@ -33,7 +67,12 @@ class AnimaleFixtures extends Fixture
         ->setImage("chien.png")
         ->setPoids(10)
         ->setDangereux(false)
-        ->setFamille($c1);
+        ->setFamille($c1)
+        ->addContinent($continent1)
+        ->addContinent($continent2)
+        ->addContinent($continent3)
+        ->addContinent($continent4)
+        ->addContinent($continent5);
         $manager->persist($a1);
         
         $a2 = new Animal();
@@ -42,7 +81,10 @@ class AnimaleFixtures extends Fixture
         ->setImage("cochon.png")
         ->setPoids(300)
         ->setDangereux(false)
-        ->setFamille($c1);
+        ->setFamille($c1)
+        ->addContinent($continent1)
+        ->addContinent($continent2)
+        ->addContinent($continent5);
         $manager->persist($a2);
 
         $a3 = new Animal();
@@ -51,7 +93,10 @@ class AnimaleFixtures extends Fixture
         ->setImage("serpent.png")
         ->setPoids(5)
         ->setDangereux(true)
-        ->setFamille($c2);
+        ->setFamille($c2)
+        ->addContinent($continent2)
+        ->addContinent($continent3)
+        ->addContinent($continent4);
         $manager->persist($a3);
 
         $a4 = new Animal();
@@ -60,7 +105,10 @@ class AnimaleFixtures extends Fixture
         ->setImage("croco.png")
         ->setPoids(500)
         ->setDangereux(true)
-        ->setFamille($c2);
+        ->setFamille($c2)
+        ->addContinent($continent2)
+        ->addContinent($continent3)
+        ->addContinent($continent4);
         $manager->persist($a4);
 
         $a5 = new Animal();
@@ -69,8 +117,46 @@ class AnimaleFixtures extends Fixture
         ->setImage("requin.png")
         ->setPoids(800)
         ->setDangereux(true)
-        ->setFamille($c3);
+        ->setFamille($c3)
+        ->addContinent($continent4)
+        ->addContinent($continent5);
         $manager->persist($a5);
+
+        $d1 = new Dispose();
+        $d1->setPersonne($p1)
+        ->setAnimal($a1)
+        ->setNb(30);
+        $manager->persist($d1);
+
+        $d2 = new Dispose();
+        $d2->setPersonne($p1)
+        ->setAnimal($a2)
+        ->setNb(10);
+        $manager->persist($d2);
+
+        $d3 = new Dispose();
+        $d3->setPersonne($p1)
+        ->setAnimal($a3)
+        ->setNb(2);
+        $manager->persist($d3);
+
+        $d4 = new Dispose();
+        $d4->setPersonne($p2)
+        ->setAnimal($a3)
+        ->setNb(5);
+        $manager->persist($d4);
+
+        $d5 = new Dispose();
+        $d5->setPersonne($p2)
+        ->setAnimal($a4)
+        ->setNb(10);
+        $manager->persist($d5);
+
+        $d6 = new Dispose();
+        $d6->setPersonne($p3)
+        ->setAnimal($a5)
+        ->setNb(20);
+        $manager->persist($d6);
 
         $manager->flush();
     }

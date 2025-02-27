@@ -3,11 +3,11 @@
 {% block title %}Famille
 {% endblock %}
 
-{% block monTitre %}Page famille
+{% block monTitre %}Famille : {{famille.libelle}}
 
 {% endblock %}
 {% block body %}
-<div class="border-bottom border-info ">{{famille.description}}</div><br>
+<h5><div class=" m-2">{{famille.description}}</div></h5><br>
 
 		<div class="row ">
 			{% for animal in famille.animaux %}

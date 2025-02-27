@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\AnimalRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -32,6 +34,24 @@ class Animal
     #[ORM\ManyToOne(inversedBy: 'animaux')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Famille $famille = null;
+
+    /**
+     * @var Collection<int, Continent>
+     */
+    #[ORM\ManyToMany(targetEntity: Continent::class, mappedBy: 'animaux')]
+    private Collection $continents;
+
+    /**
+     * @var Collection<int, Dispose>
+     */
+    #[ORM\OneToMany(targetEntity: Dispose::class, mappedBy: 'animal')]
+    private Collection $disposes;
+
+    public function __construct()
+    {
+        $this->continents = new ArrayCollection();
+        $this->disposes = new ArrayCollection();
+    }
 
 
     public function getId(): ?int
@@ -107,6 +127,63 @@ class Animal
     public function setFamille(?Famille $famille): static
     {
         $this->famille = $famille;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Continent>
+     */
+    public function getContinents(): Collection
+    {
+        return $this->continents;
+    }
+
+    public function addContinent(Continent $continent): static
+    {
+        if (!$this->continents->contains($continent)) {
+            $this->continents->add($continent);
+            $continent->addAnimaux($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContinent(Continent $continent): static
+    {
+        if ($this->continents->removeElement($continent)) {
+            $continent->removeAnimaux($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Dispose>
+     */
+    public function getDisposes(): Collection
+    {
+        return $this->disposes;
+    }
+
+    public function addDispose(Dispose $dispose): static
+    {
+        if (!$this->disposes->contains($dispose)) {
+            $this->disposes->add($dispose);
+            $dispose->setAnimal($this);
+        }
+
+        return $this;
+    }
+
+    public function removeDispose(Dispose $dispose): static
+    {
+        if ($this->disposes->removeElement($dispose)) {
+            // set the owning side to null (unless already changed)
+            if ($dispose->getAnimal() === $this) {
+                $dispose->setAnimal(null);
+            }
+        }
 
         return $this;
     }
