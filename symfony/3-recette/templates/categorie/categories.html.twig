@@ -1,0 +1,28 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Catégories
+{% endblock %}
+{% block monTitre %}Liste les Catégories
+{% endblock %}
+
+
+{% block body %}
+<div class="row ">
+    {% for categorie in lesCategories %}
+        <div class="col-6">
+            <div class='row align-items-center'>
+                <div class='col-6 col-md-4 col-lg-2'><br>
+                    <img src="{{asset('images/categories/' ~ categorie.image)}}" alt="" class='perso_imgAliment img-fluid'>
+                </div>
+                <div class='col '>
+                    {{categorie.libelle}}
+                </div>
+            </div>
+        </div>
+        
+    {% endfor %}
+</div>
+{% endblock %}
+
+
+
