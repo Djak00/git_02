@@ -29,9 +29,16 @@
 				{% else %}
 					<span class="badge bg-danger">NON</span>
 				{% endif %}
-
 			</div>
+<div>
+{% for continent in animal.continents %}
+{% if continent.id != animal.id %}
+	<a href="{{path("afficher_continent",{"id":continent.id})}}">{{continent.libelle }} </a>
+	{% if not loop.last %} - {% endif %}
+	{% endif %}
 
+{% endfor %}
+</div>
 		</div>
 	</div>
 
