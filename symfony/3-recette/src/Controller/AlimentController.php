@@ -3,9 +3,10 @@
 namespace App\Controller;
 
 use App\Repository\AlimentRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+
 
 final class AlimentController extends AbstractController
 {
@@ -41,6 +42,7 @@ final class AlimentController extends AbstractController
             'isGlucide' =>true
         ]);
     }
+
 
 
 }

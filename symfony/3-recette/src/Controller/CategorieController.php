@@ -18,12 +18,5 @@ final class CategorieController extends AbstractController
         ]);
     }
 
-    // #[Route('/categories/admin', name: 'affich_adminCategories')]
-    // public function adminCategories(CategorieRepository $Repository): Response
-    // {
-    //     $categories=$Repository->findAll();
-    //     return $this->render('categorie/adminCategories.html.twig', [
-    //         'lesCategories'=>$categories
-    //     ]);
-    // }
+
 }

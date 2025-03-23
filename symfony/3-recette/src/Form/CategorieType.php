@@ -6,6 +6,7 @@ use App\Entity\Categorie;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CategorieType extends AbstractType
 {
@@ -13,7 +14,8 @@ class CategorieType extends AbstractType
     {
         $builder
             ->add('libelle')
-            ->add('image')
+            // ->add('image')
+            ->add('imageFile',FileType::class,['required'=>false])
         ;
     }
 
@@ -21,6 +23,9 @@ class CategorieType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Categorie::class,
+            'csrf_protection' => true, // Active la protection CSRF
+            'csrf_field_name' => '_token', // Nom du champ caché CSRF
+            'csrf_token_id'   => 'categorie_item', // ID unique pour le formulaire
         ]);
     }
 }
