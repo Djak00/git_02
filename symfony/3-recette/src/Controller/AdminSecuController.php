@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
@@ -37,15 +38,16 @@ final class AdminSecuController extends AbstractController
     }
 
     #[Route('/login', name: 'connexion')]
-    public function login(): Response
+    public function login(AuthenticationUtils $util): Response
     {
 
         return $this->render('admin_secu/login.html.twig', [
-
+            "lastUserName"=> $util ->getLastUsername(),
+            "error"=> $util ->getLastAuthenticationError(),
         ]);
     }
 
-    #[Route('/login', name: 'deconnexion')]
+    #[Route('/logout', name: 'deconnexion')]
     public function deconnexion(): void
     {
 
@@ -53,3 +55,4 @@ final class AdminSecuController extends AbstractController
 
     }
 }
+

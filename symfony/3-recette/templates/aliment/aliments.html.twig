@@ -12,8 +12,8 @@ avec moins de 50 calories
 {% endblock %}
 
 {% block body %}
-<div class='m-4'>
-<a href="{{ path('affich_aliments') }}" class="btn btn-info">Tous</a>
+<div class='m-4 d-flex flex-wrap gap-2'>
+<a href="{{ path('affich_aliments') }}" class="btn btn-info" >Tous</a>
 <a href="{{ path('affich_calorie', {'calorie': 50}) }}" class="btn btn-info">Lien : moins de 50 calories</a>
 <a href="{{ path('affich_glucide', {'glucide': 7}) }}" class="btn btn-info ">Lien : plus de 7 glucides</a>
 

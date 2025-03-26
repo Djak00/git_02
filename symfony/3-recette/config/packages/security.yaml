@@ -33,7 +33,7 @@ security:
     # Contrôle d'accès aux URLs (facultatif ici)
     access_control:
         # Exemple : protéger une route admin
-        # - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
 
 when@test:
     security:

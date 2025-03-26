@@ -35,9 +35,11 @@
 										<a class="dropdown-item" href="{{ path('affich_aliments') }}">Voir les Aliments</a>
 									</li>
 									<li><hr class="dropdown-divider"></li>
+									{% if is_granted('ROLE_ADMIN') %}
 									<li>
 										<a class="dropdown-item" href="{{ path('affich_admin') }}">Gérer les Aliments</a>
 									</li>
+									{% endif %}
 								</ul>
 							</li>
 
@@ -51,28 +53,32 @@
 										<a class="dropdown-item" href="{{ path('affich_categories') }}">Voir les Catégories</a>
 									</li>
 									<li><hr class="dropdown-divider"></li>
+									{% if is_granted('ROLE_ADMIN') %}
 									<li>
 										<a class="dropdown-item" href="{{ path('affich_adminCategories') }}">Gérer les Catégories</a>
 									</li>
+									{% endif %}
 								</ul>
 							</li>
-
-							<li class="nav-item dropdown">
-								<a class="nav-link " href="{{path('inscription')}}">
-									Inscription
-								</a>
-							</li>
-							<!-- Menu Connexion -->
-							<li class="nav-item dropdown">
-								<a class="nav-link " href="{{path('connexion')}}">
-									Connexion
-								</a>
-							</li>
-							<li class="nav-item dropdown">
-								<a class="nav-link " href="{{path('deconnexion')}}">
-									Déconnexion
-								</a>
-							</li>
+							{% if not app.user %}
+								<li class="nav-item dropdown">
+									<a class="nav-link " href="{{path('inscription')}}">
+										Inscription
+									</a>
+								</li>
+								<!-- Menu Connexion -->
+								<li class="nav-item dropdown">
+									<a class="nav-link " href="{{path('connexion')}}">
+										Connexion
+									</a>
+								</li>
+								{% else %}
+								<li class="nav-item dropdown">
+									<a class="nav-link " href="{{path('deconnexion')}}">
+										Déconnexion
+									</a>
+								</li>
+							{% endif %}
 						</ul>
 
 						<!-- Barre de recherche -->

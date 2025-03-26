@@ -10,5 +10,10 @@
         "other": true,
         "comments": false,
         "strings": true
-    }
+    },
+
+    
+        "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
+        "php.executablePath": "C:\\xampp\\php\\php.exe"
+
 }
