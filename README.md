@@ -20,10 +20,20 @@ Relations entre Entités
 - Gestion des relations OneToOne (1:1) et OneToMany (1:n)
 - Création de relations ManyToMany (n:n)
 - Exploitation des relations pour afficher les données liées (ex. : animaux et familles, continents, personnes)
-- 
-Fonctionnalités Avancées
-- Affichage dynamique des données liées (ex. : liste des animaux par famille ou continent)
-- Gestion des routes avec paramètres dynamiques
+  
+Développement d'API REST
+- Création d’un contrôleur API : ApiAlimentController
+- Création de routes d’API via les annotations :
+- Récupération de données au format JSON
+- Structuration des réponses JSON (return $this->json(...))
+- Utilisation de l’outil Postman ou du navigateur pour tester les endpoints
+
+
+Tests
+- Configuration de l’environnement de test (.env.test, phpunit.xml.dist)
+- Création de tests fonctionnels avec PHPUnit
+- tests/controller/ApiAlimentControllerTest.php
+- Vérification des réponses API (assertResponseIsSuccessful, assertJson…)
 
 Technologies utilisées
 - Symfony
@@ -31,3 +41,6 @@ Technologies utilisées
 - Twig
 - PHP
 - MySQL
+- PHPUnit
+- API Platform - contrôleurs manuels
+- Postman (pour tester les endpoints API)
