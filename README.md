@@ -30,7 +30,7 @@ Ce dépôt contient **4 mini-projets Symfony** indépendants :
 ## 🚀 Compétences mises en œuvre
 
 - ✅ PHP 8 (POO)
-- ✅ Symfony 6
+- ✅ Symfony 7
 - ✅ Doctrine ORM
 - ✅ Twig
 - ✅ Formulaires & validations
