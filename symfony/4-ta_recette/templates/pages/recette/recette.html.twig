@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Recette(s)
+{% endblock %}
+{% block monTitre %}Mes recette(s)
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		<a href="{{path('recette_ajout')}}" class="btn btn-primary m-2">
+
+			Créer une recette
+		</a>
+
+
+		<div class="count mt-2">Il y a
+			{{ recettes.getTotalItemCount }}
+			recette(s)
+		</div>
+
+		{% if recettes is not empty %}
+			<table class="table table-hover">
+				<thead>
+					<tr class="table-danger">
+						<th scope="col">Numéro</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Dificulté</th>
+						<th scope="col">Date de création</th>
+						<th scope="col">Modifier</th>
+						<th scope="col">Supprimer</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for recette in recettes %}
+						<tr class="table-light align-middle">
+							<th scope="row-Light">{{ recette.id }}</th>
+							<td>{{ recette.nom }}</td>
+							<td>{{ recette.prix|number_format(2, '.', ',') }}
+								€</td>
+							<td>{{ recette.dificulte }}</td>
+							<td>{{ recette.dateCreatedAt|date('d/m/Y') }}</td>
+							<td>
+								<a href="{{path('recette_midification',{id: recette.id})}}" class="btn btn-info">Modifier</a>
+							</td>
+							<td>
+								<a href="{{path('recette_suppression',{id:recette.id})}}" class="btn btn-info ">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>Il n'y a pas de recette</p>
+		{% endif %}
+		<div class="navigation d-flex justify-content-center mt-4">
+			{{ knp_pagination_render(recettes) }}
+		</div>
+	</div>
+{% endblock %}

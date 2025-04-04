@@ -1,0 +1,66 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Ingrédient(s)
+{% endblock %}
+{% block monTitre %}Mes ingrédient(s)
+{% endblock %}
+
+{% block body %}
+
+	<div class="container">
+
+		{% for message in app.flashes('success') %}
+			<div class="alert alert-success mt-4">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+		<a href="{{path('ingredient_ajout')}}" class="btn btn-primary mt-2">
+			Créer un ingrédient
+		</a>
+
+
+		<div class="count mt-2">Il y a
+			{{ ingredients.getTotalItemCount }}
+			ingrédient(s)
+		</div>
+
+		{% if ingredients is not empty %}
+			<table class="table table-hover">
+				<thead>
+					<tr class="table-danger">
+						<th scope="col">Numéro</th>
+						<th scope="col">Nom</th>
+						<th scope="col">Prix</th>
+						<th scope="col">Date de création</th>
+						<th scope="col">Modifier</th>
+						<th scope="col">Supprimer</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for ingredient in ingredients %}
+						<tr class="table-light">
+							<th scope="row-Light">{{ ingredient.id }}</th>
+							<td>{{ ingredient.nom }}</td>
+							<td>{{ ingredient.prix|number_format(2, '.', ',') }}
+								€</td>
+							<td>{{ ingredient.createdAt|date('d/m/Y') }}</td>
+							<td>
+								<a href="{{path('ingredient_modification', {'id': ingredient.id})}}" class="btn btn-info">Modifier</a>
+							</td>
+							<td>
+								<a href="{{path('ingredient_suppression', {'id': ingredient.id,page: app.request.get('page')})}}" class="btn btn-info">Supprimer</a>
+							</td>
+						</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		{% else %}
+			<p>Il n'y a pas d'ingrédients</p>
+		{% endif %}
+		<div class="navigation d-flex justify-content-center mt-4">
+			{{ knp_pagination_render(ingredients) }}
+		</div>
+	</div>
+
+{% endblock %}
