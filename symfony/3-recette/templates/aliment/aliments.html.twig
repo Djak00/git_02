@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Aliments
+{% endblock %}
+{% block monTitre %}Aliment
+{% if isCalorie %}
+avec moins de 50 calories
+{% elseif isGlucide %}
+	plus de 7 glucides
+{% endif %}
+
+{% endblock %}
+
+{% block body %}
+<div class='m-4 d-flex flex-wrap gap-2'>
+<a href="{{ path('affich_aliments') }}" class="btn btn-info" >Tous</a>
+<a href="{{ path('affich_calorie', {'calorie': 50}) }}" class="btn btn-info">Lien : moins de 50 calories</a>
+<a href="{{ path('affich_glucide', {'glucide': 7}) }}" class="btn btn-info ">Lien : plus de 7 glucides</a>
+
+</div>
+	<div class="row">
+		{% for aliment in aliments %}
+			<div class="col-12 col-md-6 col-lg-4 col-xl-3">
+
+				<div class="card  border-info mb-3 mx-auto" style="max-width:20rem">
+
+					<h3 class="card-header"><b>{{aliment.nom}}</b></h3>
+					<div class="card-body"></div>
+					<div class='text-center'>
+						<img src='{{ asset('images/aliments/' ~ aliment.image )}}' alt="img" class='perso_imgAliment card-img-top'>
+					</div>
+					<div class="card-body"><h5><b>Prix (kilo) : {{aliment.prix}}</b></h5></div>
+					<div class="card-body"><h5><b>Catégorie : {{aliment.categorie.libelle}}</b></h5></div>
+					<ul class="list-group list-group-flush ">
+						<li class="list-group-item text-white bg-info">
+							<b>Propriété :
+							</b>
+						</li>
+						<li class="list-group-item">Calorie :
+							{{aliment.calorie}}</li>
+						<li class="list-group-item">Protéines :
+							{{aliment.proteine}}</li>
+						<li class="list-group-item">Glucides :
+							{{aliment.glucide}}</li>
+						<li class="list-group-item">Lipides :
+							{{aliment.lipide}}</li>
+					</ul>
+
+				</div>
+
+
+			</div>
+		{% endfor %}
+        
+	</div>
+
+{% endblock %}
+

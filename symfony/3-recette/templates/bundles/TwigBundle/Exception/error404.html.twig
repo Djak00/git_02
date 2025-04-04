@@ -1,0 +1,12 @@
+{# templates/bundles/TwigBundle/Exception/error404.html.twig #}
+{% extends 'base.html.twig' %}
+
+{% block title %}Erreur 404 - Page non trouvée{% endblock %}
+{% block monTitre %}Erreur 404{% endblock %}
+{% block body %}
+    <div class="container text-center mt-5">
+        <div><h1 class="display-3 text-danger">😢 Oups ! </h1></div>
+        <p class="lead">Désolé, la page que vous cherchez n'existe pas.</p>
+        <a href="{{ path('affich_aliments') }}" class="btn btn-primary">Retour à l'accueil</a>
+    </div>
+{% endblock %}

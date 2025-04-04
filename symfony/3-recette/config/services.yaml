@@ -1,0 +1,20 @@
+parameters: {}
+
+services:
+    # Configuration par défaut pour tous les services
+    _defaults:
+        autowire: true      # Injecte automatiquement les dépendances
+        autoconfigure: true # Enregistre automatiquement les services comme contrôleurs, événements, etc.
+
+    # Enregistrement des contrôleurs Symfony comme services
+    App\Controller\:
+        resource: '../src/Controller/'
+        tags: ['controller.service_arguments']
+
+    # Enregistrement des autres services dans src/
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'

@@ -1,0 +1,80 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Admin
+{% endblock %}
+{% block monTitre %}Admin
+{% endblock %}
+
+{% block body %}
+
+{% for type, messages in app.flashes %}
+    {% for message in messages %}
+        <div class="alert alert-{{ type }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    {% endfor %}
+{% endfor %}
+
+<!-- Le script est placé après les messages -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(function() {
+            document.querySelectorAll(".alert").forEach(alert => {
+                alert.classList.add("fade"); // Ajoute un effet de disparition
+                setTimeout(() => alert.remove(), 500); // Supprime après 0.5s
+            });
+        }, 3000); // Disparaît après 3 secondes
+
+        console.log("Script de disparition des alertes exécuté !");
+    });
+</script>
+
+
+	<a class="btn btn-info m-2" href="{{ path('creation_admin') }}">Ajouter</a>
+	<div class="dm m-4">
+		<table class="table table-hover">
+			<thead>
+				<tr class="table-primary">
+					<th scope="col">Image</th>
+					<th scope="col">Aliment</th>
+					<th scope="col">Prix</th>
+					<th scope="col">Catégorie</th>
+					<th scope="col">Calories</th>
+					<th scope="col">Proteines</th>
+					<th scope="col">Glucides</th>
+					<th scope="col">Lipides</th>
+					<th scope="col">Modifier</th>
+					<th scope="col">Supprimer</th>
+					{# <th scope="col">Supprimer</th> #}
+				</tr>
+			</thead>
+			{% for aliment in aliments %}
+				<tbody>
+					<tr class="align-middle">
+						<td>
+							<img src="{{ asset('images/aliments/' ~ aliment.image) }}" alt="img" style="width: 100px">
+						</td>
+						<td>{{ aliment.nom }}</td>
+						<td>{{ aliment.prix }}</td>
+						<td>{{ aliment.categorie.libelle }}</td>
+						<td>{{ aliment.calorie }}</td>
+						<td>{{ aliment.proteine }}</td>
+						<td>{{ aliment.glucide }}</td>
+						<td>{{ aliment.lipide }}</td>
+						<td>
+							<a class="btn btn-info" style="display:inline-block; vertical-align: middle;" href="{{ path('modif_admin', {'id': aliment.id}) }}">Modifier</a>
+						</td>
+						<td>	
+							<form method="post" style="display:inline-block; vertical-align: middle;" action="{{ path('admin_aliment_suppression', {'id': aliment.id}) }}" onsubmit="return confirm('Confirmer la suppression ?')">
+								<input type="hidden" name="_token" value="{{ csrf_token('SUP' ~ aliment.id) }}">
+								<input type="submit" class="btn btn-danger" value="supprimer">
+							</form>
+						</td>
+					</tr>
+				</tbody>
+			{% endfor %}
+		</table>
+	</div>
+{% endblock %}
+

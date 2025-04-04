@@ -1,0 +1,49 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Administration des catégories
+{% endblock %}
+{% block monTitre %}Administration des catégories
+{% endblock %}
+
+
+{% block body %}
+
+	{# pour afficher les messages d alerte #}
+	{% for message in app.flashes('success') %}
+		<div class='alert alert-success'>{{message}}</div>
+	{% endfor %}
+	{# _______________________________________________ #}
+
+	<a class="btn btn-info m-2" href="{{path('affich_ajoutCategorie')}}">Ajouter</a>
+	<table class="table table-hover m-2">
+		<thead>
+			<tr class="table-primary">
+				<th scope="col">Image</th>
+				<th scope="col">Catégorie</th>
+				<th scope="col">Modifier</th>
+				<th scope="col">Supprimer</th>
+			</tr>
+		</thead>
+		{% for categorie in categories %}
+			<tbody>
+				<tr class="align-middle">
+					<td><img src="{{asset("images/categories/" ~ categorie.image)}}" alt="img" style="width : 100px"></td>
+					<td>{{categorie.libelle}}</td>
+
+					<td>
+						<a class='btn btn-info' href="{{path('affich_modifCategorie', {'id': categorie.id})}}">Modification</a>
+					</td>
+
+					<td>
+						<form action="{{ path('supp_Categories', {'id': categorie.id}) }}" method="post" onsubmit="return confirm('Confirmer la suppression ?')">
+							<input type="hidden" name="_token" value="{{ csrf_token('nomToken_categorie' ~ categorie.id) }}">
+							<button type="submit" class="btn btn-danger">Supprimer</button>
+						</form>
+					</td>
+
+				</tr>
+			</tbody>
+		{% endfor %}
+	</table>
+{% endblock %}
+
