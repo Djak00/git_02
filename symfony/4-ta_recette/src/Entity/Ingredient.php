@@ -14,13 +14,12 @@ class Ingredient
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     #[ORM\Column(length: 250)]
     #[Assert\NotBlank()]
     #[Assert\Length(min: 2, max: 50)]
-
     private ?string $nom = null;
 
     #[ORM\Column]

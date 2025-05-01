@@ -7,13 +7,14 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: RecetteRepository::class)]
 class Recette
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column]
+    #[ORM\Column(type: 'integer')]
     private ?int $id = null;
 
     #[Assert\Length(min: 2, max: 50)]
@@ -51,7 +52,11 @@ class Recette
     private ?\DateTimeImmutable $updatedAt = null;
 
     #[ORM\ManyToMany(targetEntity: Ingredient::class)]
-    #[ORM\JoinTable(name: 'recette_ingredient')]
+    #[ORM\JoinTable(
+        name: 'recette_ingredient',
+        joinColumns: [new ORM\JoinColumn(name: 'recette_id', referencedColumnName: 'id')],
+        inverseJoinColumns: [new ORM\JoinColumn(name: 'ingredient_id', referencedColumnName: 'id')]
+    )]
     private Collection $liste_ingredients;
 
     public function __construct()
