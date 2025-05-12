@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modification utilisateur
+{% endblock %}
+{% block monTitre %}Modification utilisateur
+{% endblock %}
+
+{% block body %}
+	<div class="container">
+
+		{% for messages in app.flashes('warning') %}
+			<div class="alert alert-warning">
+				{{ message }}
+			</div>
+		{% endfor %}
+
+
+		{{form(form)}}
+
+		</div>
+	{% endblock %}

@@ -5,13 +5,14 @@ namespace App\Controller;
 use App\Entity\Recette;
 use App\Form\RecetteType;
 use App\Repository\RecetteRepository;
-use Doctrine\ORM\Decorator\EntityManagerDecorator;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
+
 
 final class RecetteController extends AbstractController
 {
@@ -23,12 +24,13 @@ final class RecetteController extends AbstractController
      * @param Request $request
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette', name: 'recette', methods: ['GET'])]
     public function index(RecetteRepository $repository, PaginatorInterface $paginator, Request $request): Response
     {
 
         $recettes = $paginator->paginate(
-            $repository->findAll(),
+            $repository->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1),
             10
         );
@@ -46,6 +48,7 @@ final class RecetteController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/recette/ajout', name: 'recette_ajout', methods: ['GET', 'POST'])]
     public function ajout(Request $request, EntityManagerInterface $manager): Response
     {
@@ -55,6 +58,7 @@ final class RecetteController extends AbstractController
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid()) {
             $recette = $form->getData();
+            $recette->setUser($this->getUser());
 
             $manager->persist($recette);
             $manager->flush();
@@ -80,10 +84,14 @@ final class RecetteController extends AbstractController
      * @param EntityManagerInterface $manager
      * @return Response
      */
+
     #[Route('/recette/modification/{id}', name: 'recette_midification', methods: ['GET', 'POST'])]
     public function modification(Recette $recette, Request $request, EntityManagerInterface $manager): Response
     {
 
+        if ($this->getUser() !== $recette->getUser()) {
+            throw $this->createAccessDeniedException("Vous n'avez pas le droit de modifier cette recette.");
+        }
         $form = $this->createForm(RecetteType::class, $recette);
 
         $form->handleRequest($request);

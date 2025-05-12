@@ -6,6 +6,7 @@ use App\Entity\Recette;
 use App\Entity\Ingredient;
 use App\Repository\IngredientRepository;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,9 +18,18 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorageInterface;
 
 class RecetteType extends AbstractType
 {
+    private $token;
+
+    public function __construct(TokenStorageInterface $token)
+    {
+        $this->token = $token;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -134,9 +144,9 @@ class RecetteType extends AbstractType
                 'class' => Ingredient::class,
                 'query_builder' => function (IngredientRepository $r) {
                     return $r->createQueryBuilder('i')
-                        // ->where('i.user = :user')
-                        ->orderBy('i.nom', 'ASC');
-                    // ->setParameter('user', $this->token->getToken()->getUser());
+                        ->where('i.user = :user')
+                        ->orderBy('i.nom', 'ASC')
+                        ->setParameter('user', $this->token->getToken()->getUser());
                 },
                 'label' => 'Les ingrédients',
                 'label_attr' => [
@@ -145,13 +155,16 @@ class RecetteType extends AbstractType
                 'choice_label' => 'nom',
                 'multiple' => true,
                 'expanded' => true,
+                'choice_attr' => function () {
+                    return ['class' => 'form-check-input me-2 ms-2']; // Ajoute de l'espace à droite de la case à cocher
+                },
             ])
 
             ->add('submit', SubmitType::class, [
                 'attr' => [
                     'class' => 'btn btn-primary mt-4'
                 ],
-                'label' => 'Valider'
+                'label' => 'Créer une recette'
             ]);
     }
 

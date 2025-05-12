@@ -16,6 +16,13 @@
 				{{ importmap('app') }}
 			{% endblock %}
 		{% endblock %}
+
+		<style>
+			.invalid-feedback {
+				display: block !important;
+				color: red;
+			}
+		</style>
 	</head>
 
 	<body>
@@ -25,6 +32,19 @@
 				{% block monTitre %}{% endblock %}
 			</h1>
 		{% endblock %}
+
+		{# AFFICHAGE DES MESSAGES FLASH #}
+		<div class="container mt-3">
+			{% for label, messages in app.flashes %}
+				{% for message in messages %}
+					<div class="alert alert-{{ label }} alert-dismissible fade show" role="alert">
+						{{ message }}
+						<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+					</div>
+				{% endfor %}
+			{% endfor %}
+		</div>
+
 		{% block body %}{% endblock %}
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 	</body>

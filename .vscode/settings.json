@@ -12,5 +12,29 @@
         "strings": true
     },
     "php.validate.executablePath": "C:\\xampp\\php\\php.exe",
-    "php.executablePath": "C:\\xampp\\php\\php.exe"
+    "php.executablePath": "C:\\xampp\\php\\php.exe",
+    "files.exclude": {
+        "**/1-persos/**": true,
+        "**/2-animaux/**": true,
+        "**/3-recette/**": true
+    },
+    "search.exclude": {
+        "**/1-persos/**": true,
+        "**/2-animaux/**": true,
+        "**/3-recette/**": true
+    },
+    "intelephense.files.exclude": [
+        "**/vendor/**",
+        "**/var/**",
+        "**/node_modules/**",
+        "**/1-persos/**",
+        "**/2-animaux/**",
+        "**/3-recette/**"
+    ],
+    "intelephense.files.associations": [
+        "*.php",
+        "*.twig"
+    ],
+    "intelephense.files.maxSize": 5000000,
+    "intelephense.files.maxMemory": 4096
 }

@@ -59,6 +59,10 @@ class Recette
     )]
     private Collection $liste_ingredients;
 
+    #[ORM\ManyToOne(inversedBy: 'recettes')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
         $this->date_createdAt = new \DateTimeImmutable();
@@ -189,6 +193,18 @@ class Recette
     public function removeListeIngredient(Ingredient $ingredient): static
     {
         $this->liste_ingredients->removeElement($ingredient);
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
+
         return $this;
     }
 }

@@ -10,6 +10,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 final class IngredientController extends AbstractController
@@ -23,12 +24,13 @@ final class IngredientController extends AbstractController
      * @param Request $request
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/ingredient', name: 'ingredient')]
     public function index(IngredientRepository $repo, PaginatorInterface $paginator, Request $request): Response
     {
 
         $ingredients = $paginator->paginate(
-            $repo->findAll(),
+            $repo->findBy(['user' => $this->getUser()]),
             $request->query->getInt('page', 1),
             10
         );
@@ -41,12 +43,13 @@ final class IngredientController extends AbstractController
 
 
     /**
-     * ajout d'ingredient
+     * AJOUT INGREDIENT
      *
      * @param Request $request
      * @param EntityManagerInterface $manager
      * @return Response
      */
+    #[IsGranted('ROLE_USER')]
     #[Route('/ingredient/ajout', name: 'ingredient_ajout', methods: ['GET', 'POST'])]
     public function ingredientAjout(Request $request, EntityManagerInterface $manager): Response
     {
@@ -58,6 +61,7 @@ final class IngredientController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $ingredient = $form->getData();
+            $ingredient->setUser($this->getUser());
 
             $manager->persist($ingredient);
             $manager->flush();
@@ -75,27 +79,22 @@ final class IngredientController extends AbstractController
         ]);
     }
 
-    // #[Route('/ingredient/modification/{id}', name: 'ingredient_modification', methods: ['GET', 'POST'])]
-    // public function modification(int $id, IngredientRepository $repository): Response
-    // {
-    //     $ingredient = $repository->findBy(['id' => $id]);
-    //     $form = $this->createForm(IngredientType::class, $ingredient);
 
-
-    //     return $this->render('pages/ingredient/ingredient.modification.html.twig', [
-
-    //         'form' =>  $form->createView(),
-
-    //     ]);
-    // }
-
-
-
-
-
+    /**
+     * Undocumented function
+     *
+     * @param Ingredient $ingredient
+     * @param Request $request
+     * @param EntityManagerInterface $manager
+     * @return Response
+     */
+    #[IsGranted('ROLE_USER')]
     #[Route('/ingredient/modification/{id}', name: 'ingredient_modification', methods: ['GET', 'POST'])]
     public function modification(Ingredient $ingredient, Request $request, EntityManagerInterface $manager): Response
     {
+        if ($this->getUser() !== $ingredient->getUser()) {
+            throw $this->createAccessDeniedException("Vous n'avez pas le droit de modifier cet ingrédient.");
+        }
 
         $form = $this->createForm(IngredientType::class, $ingredient);
 
@@ -124,6 +123,7 @@ final class IngredientController extends AbstractController
 
 
     #[Route('/ingredient/suppression/{id}', name: 'ingredient_suppression', methods: ['GET'])]
+    #[Security("is_granted('ROLE_USER') and user === ingredient.getUser()")]
     public function suppression(Ingredient $ingredient, EntityManagerInterface $manager, Request $request): Response
     {
 
